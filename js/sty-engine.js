@@ -7,6 +7,63 @@ class StyEngine {
       "FILL A",
       "BREAK",
       "ENDING A"
+     async loadManifest(manifestUrl = "styles/manifest.json") {
+  try {
+    const res = await fetch(manifestUrl);
+    if (!res.ok) return;
+    const items = await res.json();
+    if (!Array.isArray(items)) return;
+
+    items.forEach((entry) => {
+      if (!entry.id || !entry.styleUrl) return;
+      const idx = this.library.findIndex((x) => x.id === entry.id);
+      const formatted = {
+        id: entry.id,
+        name: entry.name || entry.id,
+        category: entry.category || entry.folder || "Carpeta STY",
+        bpm: Number(entry.bpm) || 100,
+        styleUrl: entry.styleUrl,
+        description: entry.description || `Carpeta: ${entry.folder || "styles"}`
+      };
+      if (idx >= 0) {
+        this.library[idx] = { ...this.library[idx], ...formatted };
+      } else {
+        this.library.push(formatted);
+      }
+    });
+  } catch (_) {}
+}
+
+async loadStyFromUrl(url) {
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`No se pudo cargar ${url} (HTTP ${res.status})`);
+  }
+  const buffer = await res.arrayBuffer();
+  const bytes = new Uint8Array(buffer);
+  const asciiText = new TextDecoder("latin1").decode(bytes);
+  this.casmDetected = asciiText.includes("CASM");
+}
+
+async selectLibraryStyle(presetId) {
+  const item = this.library.find((x) => x.id === presetId);
+  if (!item) return null;
+
+  this.activePresetId = item.id;
+  this.styleName = item.name;
+  this.tempo = item.bpm;
+  this.patterns = this.buildPresetPatterns(
+    presetId === "pastillas_amnesia_bronco" ? "cumbia_mexicana" : item.id
+  );
+
+  if (item.styleUrl) {
+    try {
+      await this.loadStyFromUrl(item.styleUrl);
+    } catch (_) {}
+  }
+
+  return item;
+} 
     ];
     this.currentSection = "MAIN A";
     this.currentChord = "Cmaj7";
