@@ -190,8 +190,26 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 5px;
+}.tft-screen {
+  height: 245px !important;
+  max-height: 245px !important;
+  min-height: 245px !important;
+  overflow: hidden !important;
+  position: relative !important;
 }
 
+.tft-content {
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+.tft-tabs,
+.control-block,
+.keyboard-section {
+  position: relative !important;
+  z-index: 5 !important;
+}
 @media (min-width: 680px) {
   .tft-tabs {
     grid-template-columns: repeat(6, 1fr);
