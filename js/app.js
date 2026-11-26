@@ -1222,3 +1222,7 @@
     }
   });
 })();
+sty.loadManifest().then(() => {
+  applyLibraryStyle("pastillas_amnesia_bronco", "MAIN A");
+  if (activeTab === "files") renderFilesTab();
+});
