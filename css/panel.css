@@ -1,0 +1,596 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #060d18;
+  color: #f8fafc;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+}
+
+.workstation-shell {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* BARRA SUPERIOR */
+.top-transport-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  background: linear-gradient(180deg, #132338 0%, #0b1523 100%);
+  border: 1px solid #26486e;
+  border-radius: 6px;
+  padding: 6px 8px;
+  position: relative;
+  z-index: 4;
+}
+
+.transport-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.tempo-box,
+.transpose-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #08121f;
+  border: 1px solid #234368;
+  border-radius: 4px;
+  padding: 2px 5px;
+  font-size: 0.72rem;
+}
+
+.tempo-box input {
+  width: 46px;
+  background: transparent;
+  border: none;
+  color: #38bdf8;
+  font-weight: 800;
+  text-align: center;
+  font-size: 0.76rem;
+}
+
+.beat-leds {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.beat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #1e3552;
+}
+
+.beat-dot.on {
+  background: #38bdf8;
+  box-shadow: 0 0 6px #38bdf8;
+}
+
+.beat-dot.on-first {
+  background: #f97316;
+  box-shadow: 0 0 6px #f97316;
+}
+
+.lcd-mini-status {
+  flex: 1 1 220px;
+  background: #071322;
+  border: 1px solid #254b76;
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-size: 0.72rem;
+  min-width: 0;
+}
+
+.lcd-line-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  color: #e2e8f0;
+}
+
+#chordDisplay {
+  color: #fbbf24;
+  font-size: 0.85rem;
+}
+
+#lcdStyleName {
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+#lcdSectionBadge {
+  color: #93c5fd;
+  font-size: 0.68rem;
+}
+
+.vol-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.68rem;
+  color: #cbd5e1;
+}
+
+.vol-control input[type="range"] {
+  width: 72px;
+}
+
+.midi-badge {
+  background: #0d223a;
+  border: 1px solid #2a5382;
+  color: #93c5fd;
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-size: 0.66rem;
+  font-weight: 700;
+}
+
+/* PANEL PRINCIPAL Y PANTALLA TFT */
+.panel-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.center-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: linear-gradient(180deg, #101e31 0%, #09111c 100%);
+  border: 1px solid #223f61;
+  border-radius: 8px;
+  padding: 8px;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.tft-screen {
+  position: relative;
+  height: 255px;
+  max-height: 255px;
+  min-height: 255px;
+  background: #06101c;
+  border: 2px solid #28517d;
+  border-radius: 6px;
+  padding: 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  min-width: 0;
+}
+
+.tft-content {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tft-content * {
+  min-width: 0;
+}
+
+.tft-content select,
+.tft-content input[type="text"] {
+  max-width: 100%;
+}
+
+.tft-content input[type="file"] {
+  max-width: 82px;
+  font-size: 0.54rem;
+  color: #cbd5e1;
+}
+
+.tft-tabs {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+
+@media (min-width: 680px) {
+  .tft-tabs {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.tft-tab {
+  background: #0d1c2e;
+  border: 1px solid #25486f;
+  color: #cbd5e1;
+  border-radius: 5px;
+  padding: 6px 8px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tft-tab.active {
+  background: #16375c;
+  border-color: #38bdf8;
+  color: #ffffff;
+}
+
+/* BLOQUES DE CONTROL */
+.control-block {
+  position: relative;
+  z-index: 3;
+  background: #0b1626;
+  border: 1px solid #1e3857;
+  border-radius: 6px;
+  padding: 7px;
+  min-width: 0;
+}
+
+.block-title {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #93c5fd;
+  margin-bottom: 6px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}
+
+.mt-6 {
+  margin-top: 6px;
+}
+
+.w-full {
+  width: 100%;
+}
+
+/* BOTONES DE HARDWARE */
+.hw-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: linear-gradient(180deg, #1a2f4a 0%, #101e31 100%);
+  border: 1px solid #2d537e;
+  color: #f1f5f9;
+  border-radius: 5px;
+  padding: 6px 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  max-width: 100%;
+}
+
+.hw-btn.small {
+  padding: 4px 7px;
+  font-size: 0.64rem;
+}
+
+.hw-btn .led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #334e6e;
+  flex-shrink: 0;
+}
+
+.hw-btn.active {
+  border-color: #38bdf8;
+  background: linear-gradient(180deg, #1d4269 0%, #112842 100%);
+}
+
+.hw-btn.led-red.active .led {
+  background: #ef4444;
+  box-shadow: 0 0 6px #ef4444;
+}
+
+.hw-btn.led-amber.active .led {
+  background: #f59e0b;
+  box-shadow: 0 0 6px #f59e0b;
+}
+
+.hw-btn.led-blue.active .led {
+  background: #38bdf8;
+  box-shadow: 0 0 6px #38bdf8;
+}
+
+/* TARJETAS INTERNAS (HOME / MIXER / LATENCY) */
+.sx-tile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.66rem;
+  font-weight: 800;
+  color: #38bdf8;
+  padding-bottom: 3px;
+}
+
+.sx-home-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 5px;
+}
+
+@media (min-width: 640px) {
+  .sx-home-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.sx-tile {
+  background: #0b1726;
+  border: 1px solid #1e3b5e;
+  border-radius: 5px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sx-tile-title {
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+.sx-tile-sub {
+  font-size: 0.62rem;
+  color: #93c5fd;
+}
+
+.voice-slot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 0.66rem;
+}
+
+.voice-slot select {
+  max-width: 170px;
+  background: #13253b;
+  color: #fff;
+  border: 1px solid #2b5482;
+  border-radius: 3px;
+  padding: 2px 4px;
+  font-size: 0.62rem;
+}
+
+.mixer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  overflow-y: auto;
+}
+
+@media (min-width: 680px) {
+  .mixer-grid {
+    grid-template-columns: repeat(8, 1fr);
+  }
+}
+
+.mixer-strip {
+  background: #0b1726;
+  border: 1px solid #1e3b5e;
+  border-radius: 4px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.mixer-ch-name {
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #93c5fd;
+}
+
+.mixer-strip input[type="range"] {
+  width: 100%;
+}
+
+.mixer-val {
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+/* JOYSTICK + TECLADO 61 TECLAS */
+.keyboard-section {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  background: #0b1523;
+  border: 1px solid #213e61;
+  border-radius: 8px;
+  padding: 6px;
+}
+
+.joystick-pad {
+  position: relative;
+  width: 58px;
+  min-width: 58px;
+  height: 124px;
+  background: #070e18;
+  border: 1px solid #284b75;
+  border-radius: 6px;
+  touch-action: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.joystick-stick {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #60a5fa, #1d4ed8);
+  border: 2px solid #bfdbfe;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.joy-label {
+  position: absolute;
+  bottom: 4px;
+  font-size: 0.5rem;
+  font-weight: 800;
+  color: #64748b;
+  pointer-events: none;
+}
+
+.fsb-keyboard {
+  position: relative;
+  flex: 1;
+  height: 124px;
+  display: flex;
+  overflow: hidden;
+  border-radius: 5px;
+  background: #050a11;
+  touch-action: none;
+}
+
+.key-white {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 1px solid #64748b;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  color: #1e293b;
+  font-size: 0.58rem;
+  font-weight: 700;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 4px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.key-white.split-zone {
+  background: linear-gradient(180deg, #e0f2fe 0%, #bae6fd 100%);
+}
+
+.key-white.active {
+  background: linear-gradient(180deg, #7dd3fc 0%, #38bdf8 100%);
+}
+
+.key-black {
+  position: absolute;
+  top: 0;
+  width: 1.85%;
+  height: 62%;
+  background: linear-gradient(180deg, #1e293b 0%, #090d16 100%);
+  border: 1px solid #020617;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  z-index: 3;
+  cursor: pointer;
+  user-select: none;
+}
+
+.key-black.active {
+  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+}
+
+@media (max-width: 640px) {
+  .workstation-shell {
+    padding: 4px;
+    gap: 5px;
+  }
+
+  .top-transport-bar {
+    padding: 4px 6px;
+    gap: 4px;
+  }
+
+  .lcd-mini-status {
+    flex: 1 1 100%;
+    padding: 4px 6px;
+    font-size: 0.65rem;
+  }
+
+  .vol-control input[type="range"] {
+    width: 52px;
+  }
+
+  .tft-screen {
+    height: 230px;
+    max-height: 230px;
+    min-height: 230px;
+    padding: 5px;
+  }
+
+  .control-block {
+    padding: 5px;
+  }
+
+  .hw-btn {
+    padding: 5px 6px;
+    font-size: 0.63rem;
+  }
+
+  .hw-btn.small {
+    padding: 3px 5px;
+    font-size: 0.56rem;
+  }
+
+  .fsb-keyboard,
+  .joystick-pad {
+    height: 98px;
+  }
+}
