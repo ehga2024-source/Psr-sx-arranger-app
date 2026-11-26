@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PSR-SX Arranger Studio — Web & Android Ready</title>
+  <link rel="stylesheet" href="css/panel.css" />
+</head>
+<body>
+  <div class="console-shell">
+    <header class="top-bar">
+      <div class="brand">
+        <span class="badge">ARRANGER ENGINE</span>
+        <h1>PSR-SX STUDIO</h1>
+      </div>
+
+      <div class="transport-controls">
+        <button id="btnStartStop" class="btn btn-primary">START / STOP</button>
+        <button id="btnTapTempo" class="btn">TAP</button>
+        <label class="tempo-box">
+          BPM
+          <input id="inputTempo" type="number" min="40" max="280" value="120" />
+        </label>
+        <div id="chordDisplay" class="chord-badge">ACORDE: Cmaj7</div>
+      </div>
+    </header>
+
+    <section class="middle-deck">
+      <!-- Panel izquierdo: Estilo y variaciones -->
+      <aside class="side-panel">
+        <h2>STYLE CONTROL</h2>
+        <div class="grid-2">
+          <button class="btn style-sec active" data-section="MAIN A">MAIN A</button>
+          <button class="btn style-sec" data-section="MAIN B">MAIN B</button>
+          <button class="btn style-sec" data-section="FILL A">FILL A</button>
+          <button class="btn style-sec" data-section="BREAK">BREAK</button>
+          <button class="btn style-sec" data-section="INTRO A">INTRO A</button>
+          <button class="btn style-sec" data-section="ENDING A">ENDING A</button>
+        </div>
+
+        <h3>ACORDES RÁPIDOS</h3>
+        <div class="grid-3" id="quickChords">
+          <button class="btn chord-btn active" data-chord="Cmaj7">Cmaj7</button>
+          <button class="btn chord-btn" data-chord="Dm7">Dm7</button>
+          <button class="btn chord-btn" data-chord="Em7">Em7</button>
+          <button class="btn chord-btn" data-chord="Fmaj7">Fmaj7</button>
+          <button class="btn chord-btn" data-chord="G7">G7</button>
+          <button class="btn chord-btn" data-chord="Am7">Am7</button>
+        </div>
+      </aside>
+
+      <!-- Centro: Pantalla LCD -->
+      <main class="lcd-screen">
+        <nav class="lcd-tabs">
+          <button class="tab-btn active" data-tab="main">1. MAIN</button>
+          <button class="tab-btn" data-tab="files">2. ARCHIVOS (.STY/.SF2/WAV)</button>
+          <button class="tab-btn" data-tab="creator">3. STYLE CREATOR</button>
+          <button class="tab-btn" data-tab="latency">4. AUDIO / LATENCIA</button>
+        </nav>
+
+        <div id="tabContent" class="lcd-body"></div>
+      </main>
+
+      <!-- Panel derecho: Voces y Pads -->
+      <aside class="side-panel">
+        <h2>VOICES & PADS</h2>
+        <div class="voice-info">
+          <div><strong>Right 1:</strong> <span id="voiceRight1">Concert Grand (XG)</span></div>
+          <div><strong>Style:</strong> <span id="activeStyleName">Internal Rock Demo</span></div>
+          <div><strong>SF2 / Bank:</strong> <span id="activeBankName">GM/XG Built-in Synth</span></div>
+        </div>
+
+        <h3>MULTI PADS (WAV / MP3)</h3>
+        <div class="grid-2" id="multiPads">
+          <button class="btn pad-btn" data-pad="0">PAD 1</button>
+          <button class="btn pad-btn" data-pad="1">PAD 2</button>
+          <button class="btn pad-btn" data-pad="2">PAD 3</button>
+          <button class="btn pad-btn" data-pad="3">PAD 4</button>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Teclado interactivo -->
+    <section class="keyboard-section">
+      <div class="kb-toolbar">
+        <span>IZQ: Acordes / Split (≤ B3) | DER: Melodía (≥ C4)</span>
+        <span id="midiStatus">MIDI: Esperando teclado USB / WebMIDI</span>
+      </div>
+      <div id="keyboard" class="keyboard"></div>
+    </section>
+  </div>
+
+  <script src="js/gm-xg-map.js"></script>
+  <script src="js/audio-engine.js"></script>
+  <script src="js/sty-engine.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
